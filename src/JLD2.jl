@@ -164,6 +164,16 @@ function jldopen(fname::AbstractString, mode::AbstractString="r")
     throw(ArgumentError("invalid open mode: $mode"))
 end
 
+function jldopen(f::Function, args...; kwargs...)
+    file = jldopen(args...; kwargs...)
+    try
+        f(file)
+    finally
+        close(file)
+    end
+end
+
+
 function Base.read(f::JLDFile, name::AbstractString)
     f.end_of_data == 0 && throw(ArgumentError("file is closed"))
     haskey(f.datasets, name) || throw(ArgumentError("file has no dataset $name"))
