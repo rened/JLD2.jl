@@ -1,5 +1,3 @@
-__precompile__()
-
 module JLD2
 using DataStructures, CodecZlib, FileIO
 import Base.sizeof
